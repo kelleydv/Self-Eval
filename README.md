@@ -9,8 +9,9 @@ google account.
 ## Dependencies
 
 ### gspread
-Quick and easy way to grab responses from google drive.  See install
-instructions and [source](https://github.com/burnash/gspread).
+Quick and easy way to grab responses from google drive.  See 
+[install instructions](https://github.com/burnash/gspread#installation)
+and [source](https://github.com/burnash/gspread).
 
 ### 
 
