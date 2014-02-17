@@ -1,4 +1,4 @@
-from tkinter import Tk, Text, Button, Label, Frame, Listbox
+from tkinter import Tk, Text, Button, Label, Frame, Listbox, Toplevel
 
 class ResponseGui:
     def __init__(self, root):
@@ -58,6 +58,20 @@ class ResponseGui:
         self.button.config(text=text, command=func)
         self.buttonlabel.config(text=label)
         self.button.pack()
+
+    def get_big_text(self, callback, title='', text=''):
+        popup = Toplevel(height=160, width=180)
+        popup.title(title)
+        txtframe = Frame(popup)
+        txtframe.pack()
+        big_text = Text(txtframe)
+        big_text.insert('0.0',text)
+        big_text.pack()
+        btnframe = Frame(popup)
+        btnframe.pack()
+        grab_text = Button(btnframe)
+        grab_text.config(text="Done", command=lambda:callback(big_text.get('0.0', 'end')))
+        grab_text.pack()
         
     
 def main():

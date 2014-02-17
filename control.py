@@ -23,9 +23,7 @@ def main():
             def list_students(class_): 
                 def show_response(r): 
                     def write_response(r):
-
-                        with open('responses/'+r[1]+'.txt', 'w+') as f:
-                            f.write(txt)
+                        app.get_big_text(lambda x:respond(txt,r,x))
 
                     txt = ''.join(['\t', r[1], '\n\t', r[3], '\n\t', r[4], '\n\n'])
                     for i,e in enumerate(r[5:]):
@@ -59,6 +57,13 @@ def main():
         ('View Recent', lambda:view_recent('2/12/2014')),
         ('Quit', root.quit)
     ])
+
+def respond(txt, r, x):
+    with open('responses/'+r[1]+'.txt', 'a+') as f:
+        f.write(x)
+        f.write('\n\n\n')
+        f.write(txt)
+
 
 main()
 
