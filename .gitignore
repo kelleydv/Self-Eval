@@ -2,4 +2,5 @@
 *.swo
 config.json
 reflections.csv
+email_lookup.csv
 __pycache__/
