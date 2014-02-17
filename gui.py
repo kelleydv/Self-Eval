@@ -1,7 +1,5 @@
 from tkinter import Tk, Text, Button, Label, Frame, Listbox
 
-
-
 class ResponseGui:
     def __init__(self, root):
         optframe = Frame(root)
@@ -9,6 +7,9 @@ class ResponseGui:
         
         txtframe = Frame(root)
         txtframe.pack(side='left')
+        
+        btnframe = Frame(root)
+        btnframe.pack(side='bottom')
         
         self.options = Listbox(optframe)
         self.options.pack()
@@ -18,22 +19,30 @@ class ResponseGui:
 
         self.maintext = Text(txtframe)
         self.maintext.pack()
+
+        
+        self.buttonlabel = Label(btnframe)
+        self.buttonlabel.pack()
+        self.button = Button(btnframe)
+        self.button.pack()
+        self.update_button()
         
 
     def update_options(self, options):
         """ Expects a list of name,callback pairs
         """
 
-        self.options.delete(0,'END')
+        self.options.delete(0,'end')
         self.opt_callbacks = []
 
         for name,func in options:
-            self.options.insert(-1,name)
+            self.options.insert('end',name)
             self.opt_callbacks.append(func)
 
         return self
 
     def update_text(self, string):
+        self.maintext.delete('0.0', 'end')
         self.maintext.insert('1.0',string)
         return self
 
@@ -41,20 +50,22 @@ class ResponseGui:
         selection = self.options.curselection()
         if selection != self.current:
             self.current = selection
-            print(selection)
             if selection:
                 self.opt_callbacks[int(*selection)]()
         self.options.after(200, self.poll)
 
+    def update_button(self, text='Go!', label='Usesless button.', func=lambda:True):
+        self.button.config(text=text, command=func)
+        self.buttonlabel.config(text=label)
+        self.button.pack()
+        
     
-
-root = Tk()
-root.title("Self-Eval Responses")
-foo = ResponseGui(root)
-
-options = [('Hi there', lambda:foo.update_text('Hello')), ('Byebye', lambda:foo.update_text('Goodbye'))]
-
-
-foo.update_options(options)
-
-root.mainloop()
+def main():
+    root = Tk()
+    root.title("Self-Eval Responses")
+    foo = ResponseGui(root)
+    
+    options = [('Hi there', lambda:foo.update_text('Hello')), ('Byebye', lambda:foo.update_text('Goodbye'))]
+    foo.update_options(options)
+    
+    root.mainloop()

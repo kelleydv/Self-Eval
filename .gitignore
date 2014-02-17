@@ -1,5 +1,5 @@
 *.swp
 *.swo
 config.json
-responses.csv
+reflections.csv
 __pycache__/

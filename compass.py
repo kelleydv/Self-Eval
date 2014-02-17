@@ -9,7 +9,7 @@ from collections import defaultdict
 
 class ResponseReader:
 
-    ID_COL = 2 #Column by which to sort individual students
+    ID_COL = 1 #Column by which to sort individual students
     CLASS_COL = 3 #The column recording the class (course section) in the spreadsheet
 
     def __init__(self, configFile=None, update = True):
@@ -56,16 +56,16 @@ class ResponseReader:
                 responses = gc.open_by_key(self._docKey)
                 sheet = responses.get_worksheet(0)
                 copy = sheet.get_all_values()
-                with open('responses.csv', 'w') as f:
+                with open('reflections.csv', 'w') as f:
                     csv.writer(f).writerows(copy)
             except:
                 self._print('Failed!  Loading saved csv...')
-                with open('responses.csv', 'r') as f:
+                with open('reflections.csv', 'r') as f:
                     copy = list(csv.reader(f))
         
         else:
             self._print('Working off saved csv...')
-            with open('responses.csv', 'r') as f:
+            with open('reflections.csv', 'r') as f:
                 copy = list(csv.reader(f))
         return copy
         
@@ -121,9 +121,9 @@ class ResponseReader:
         return zip(*self.rows_after_date(date))
 
     def students(self):
-    """ Returns a dictionary, sorted by the keys specified in the class variable
-        ID_COL
-    """
+        """ Returns a dictionary, sorted by the keys specified in the class variable
+            ID_COL
+        """
         students = defaultdict(list)
         for x in self.rows():
             students[x[self.ID_COL]].append(x)
