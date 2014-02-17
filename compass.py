@@ -9,6 +9,7 @@ from collections import defaultdict
 
 class ResponseReader:
 
+    ID_COL = 2 #Column by which to sort individual students
     CLASS_COL = 3 #The column recording the class (course section) in the spreadsheet
 
     def __init__(self, configFile=None, update = True):
@@ -118,7 +119,16 @@ class ResponseReader:
 
     def cols_by_dates(self, date):
         return zip(*self.rows_after_date(date))
+
+    def students(self):
+    """ Returns a dictionary, sorted by the keys specified in the class variable
+        ID_COL
+    """
+        students = defaultdict(list)
+        for x in self.rows():
+            students[x[self.ID_COL]].append(x)
+        return students
         
 
 
-    
+
