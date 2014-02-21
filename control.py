@@ -1,12 +1,13 @@
 from gui import ResponseGui
 from tkinter import Tk
 from compass import ResponseReader
+import csv
 
 root = Tk()
 root.title("Self-Eval Responses")
 app = ResponseGui(root)
 
-refs = ResponseReader(configFile = 'config.json', update=False)
+refs = ResponseReader(configFile = 'config.json', update=True)
 
 def main():
     def view_recent(date):
@@ -17,7 +18,7 @@ def main():
                         app.get_big_text(lambda x:respond(txt,r,x))
 
                     # show_response
-                    txt = ''.join(['\t', r[1], '\n\t', r[3], '\n\t', r[4], '\n\n'])
+                    txt = ''.join(['\t', r[1], '\n\t', r[3], '\n\t', r[4], '\n\t', r[0], '\n\n'])
                     for i,e in enumerate(r[5:]):
                         if e:
                             if len(e) > 20:
@@ -61,7 +62,21 @@ def main():
     ])
 
 def respond(txt, r, x):
-    with open('responses/'+r[1]+'.txt', 'a+') as f:
+
+    try:
+        with open('email_lookup.csv', 'r') as k:
+            emails = {name.lower():email for name, email in csv.reader(k)}
+    except:
+        print('Warning: No Email Lookup available')
+        emails = {}
+
+    email = 'No Email Found'
+    name=r[1].lower()
+    if name in emails:
+        email=emails[name]
+
+    with open('responses/'+'_'.join(r[1].split(' '))+'.txt', 'a+') as f:
+        f.write(email+'\n\n')
         f.write(x)
         f.write('\n\n\n')
         f.write(txt)
